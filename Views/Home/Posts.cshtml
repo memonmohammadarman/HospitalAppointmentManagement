@@ -1,0 +1,55 @@
+@* Specify that this view receives a collection of Post objects. *@
+@model IEnumerable<HospitalAppointmentManagement.Models.Post>
+
+@* Set the title displayed in the browser and shared layout. *@
+@{
+    ViewData["Title"] = "Async Posts";
+}
+
+@* Display the heading for the asynchronous web request demonstration. *@
+<h1>Posts Retrieved Asynchronously</h1>
+
+@* Display the external API used by the application. *@
+<p>
+    Data retrieved from:
+    https://jsonplaceholder.typicode.com/posts
+</p>
+
+@* Create a table for displaying the post ID and title. *@
+<table class="table table-bordered table-striped">
+
+    @* Create the table header. *@
+    <thead>
+        <tr>
+
+            @* Display the Post ID column heading. *@
+            <th>Post ID</th>
+
+            @* Display the Title column heading. *@
+            <th>Title</th>
+        </tr>
+    </thead>
+
+    @* Create the table body. *@
+    <tbody>
+
+        @* Loop through every post received from the API. *@
+        @foreach (var post in Model)
+        {
+            @* Create one row for each post. *@
+            <tr>
+
+                @* Display the post ID. *@
+                <td>@post.Id</td>
+
+                @* Display the post title. *@
+                <td>@post.Title</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Create a button to return to the doctor list. *@
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">
+    Back to Doctors
+</a>

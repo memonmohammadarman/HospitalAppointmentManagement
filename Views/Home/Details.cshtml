@@ -1,0 +1,94 @@
+@* Specify that this view receives one Doctor object. *@
+@model HospitalAppointmentManagement.Models.Doctor
+
+@* Set the title displayed in the browser and shared layout. *@
+@{
+    ViewData["Title"] = "Doctor Details";
+}
+
+@* Display the main heading of the doctor details page. *@
+<h1>Doctor Details</h1>
+
+@* Display the unique ID of the selected doctor. *@
+<p>
+    <strong>Doctor ID:</strong> @Model.DoctorId
+</p>
+
+@* Display the doctor's name. *@
+<p>
+    <strong>Doctor Name:</strong> @Model.DoctorName
+</p>
+
+@* Display the doctor's specialization. *@
+<p>
+    <strong>Specialization:</strong> @Model.Specialization
+</p>
+
+@* Display the doctor's professional experience. *@
+<p>
+    <strong>Experience:</strong> @Model.Experience years
+</p>
+
+@* Display the doctor's basic consultation fee. *@
+<p>
+    <strong>Consultation Fee:</strong> ₹@Model.ConsultationFee
+</p>
+
+@* Display the total consultation charge calculated by the extension method. *@
+<p>
+    <strong>Total Consultation Charge:</strong> ₹@ViewBag.TotalCharge
+</p>
+
+@* Check whether an appointment confirmation message is available. *@
+@if (ViewBag.AppointmentMessage != null)
+{
+    @* Display the successful appointment message. *@
+    <div class="alert alert-success">
+        @ViewBag.AppointmentMessage
+    </div>
+
+    @* Display the specialization stored in Session. *@
+    <div class="alert alert-info">
+        <strong>Selected Specialization in Session:</strong>
+        @ViewBag.SelectedSpecialization
+    </div>
+
+    @* Display the patient name stored in the browser Cookie. *@
+    <div class="alert alert-secondary">
+        <strong>Patient Name stored in Cookie:</strong>
+        @Context.Request.Cookies["PatientName"]
+    </div>
+}
+
+@* Create the appointment form that sends data to the Appointment POST action. *@
+<form asp-controller="Home" asp-action="Appointment" method="post">
+
+    @* Generate a security token to protect the form from CSRF attacks. *@
+    @Html.AntiForgeryToken()
+
+    @* Create a section for entering the patient's name. *@
+    <div class="mb-3">
+
+        @* Display the label for the patient-name input. *@
+        <label for="PatientName" class="form-label">
+            Patient Name
+        </label>
+
+        @* Create an input field where the patient enters their name. *@
+        <input type="text" id="PatientName" name="PatientName" class="form-control" placeholder="Enter patient name"
+               required />
+    </div>
+
+    @* Submit DoctorId as a hidden field with the appointment form. *@
+    <input type="hidden" asp-for="DoctorId" />
+
+    @* Submit the appointment form to the controller. *@
+    <button type="submit" class="btn btn-success">
+        Book Appointment
+    </button>
+</form>
+
+@* Create a button to return to the doctor list. *@
+<a class="btn btn-secondary mt-3" asp-controller="Home" asp-action="Index">
+    Back to Doctors
+</a>

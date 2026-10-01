@@ -1,0 +1,82 @@
+﻿@* Specify that this view receives a collection of Doctor objects. *@
+@model IEnumerable<HospitalAppointmentManagement.Models.Doctor>
+
+@* Set the title displayed in the browser and shared layout. *@
+@{
+    ViewData["Title"] = "Hospital Doctors";
+}
+
+@* Display the main heading of the hospital appointment system. *@
+<h1>Hospital Appointment Management System</h1>
+
+@* Explain that the doctor list is stored using IMemoryCache. *@
+<p>Doctor list is cached using IMemoryCache for 3 minutes.</p>
+
+@* Create a bordered table to display doctor information. *@
+<table class="table table-bordered">
+
+    @* Create the table header section. *@
+    <thead>
+        <tr>
+            @* Display the Doctor ID column heading. *@
+            <th>Doctor ID</th>
+
+            @* Display the Doctor Name column heading. *@
+            <th>Doctor Name</th>
+
+            @* Display the Specialization column heading. *@
+            <th>Specialization</th>
+
+            @* Display the Experience column heading. *@
+            <th>Experience</th>
+
+            @* Display the Consultation Fee column heading. *@
+            <th>Consultation Fee</th>
+
+            @* Display the Details column heading. *@
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    @* Create the table body containing all doctors. *@
+    <tbody>
+
+        @* Loop through every doctor received from the controller. *@
+        @foreach (var doctor in Model)
+        {
+            @* Create one table row for the current doctor. *@
+            <tr>
+
+                @* Display the doctor's unique ID. *@
+                <td>@doctor.DoctorId</td>
+
+                @* Display the doctor's name. *@
+                <td>@doctor.DoctorName</td>
+
+                @* Display the doctor's specialization. *@
+                <td>@doctor.Specialization</td>
+
+                @* Display the doctor's experience in years. *@
+                <td>@doctor.Experience years</td>
+
+                @* Display the doctor's consultation fee in rupees. *@
+                <td>₹@doctor.ConsultationFee</td>
+
+                @* Create a button for opening the selected doctor's details. *@
+                <td>
+
+                    @* Generate the details URL and pass DoctorId through the query string. *@
+                    <a class="btn btn-primary" href="@Url.Action("Details", "Home", new { DoctorId = doctor.DoctorId })">
+                        View Details
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Create a button for opening the asynchronously retrieved posts. *@
+<a class="btn btn-success" asp-controller="Home" asp-action="Posts">
+    View Async Posts
+</a>
